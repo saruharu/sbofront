@@ -230,7 +230,7 @@ export class SaisieFactureComponent implements OnInit {
             resetButton.value='';
             console.log("reset", resetButton.value);
     */
-   f.controls['montant'].reset();
+   //f.controls['montant'].reset();
 
     }
 
