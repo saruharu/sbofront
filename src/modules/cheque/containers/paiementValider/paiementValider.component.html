@@ -1,0 +1,89 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Validation du paiement" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div>
+        <sb-card class="mt-4 mb-0 ">
+            <div class="card-header">Détails Procédure</div>
+            <div class="card-body">
+                <form #f="ngForm"> 
+                    <div  class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Fournisseur</label>
+                                <input class="form-control form-control-sm" id="inputText" type="text"
+                                 readonly [(ngModel)]="chequeSaisi.fournisseur.libelleFrs" name="libelleFrs" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Type document</label>
+                                <input class="form-control form-control-sm" id="inputText" type="text"
+                                 readonly [(ngModel)]="chequeSaisi.typepaiement.libelleTypepaiement" name="libelleTypepaiement" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Numero document</label>
+                                <input class="form-control form-control-sm" id="inputText" type="number" 
+                                readonly [(ngModel)]="chequeSaisi.numCheque" name="numCheque"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Factures cochées</label>
+                                <input class="form-control form-control-sm" id="inputText" type="number"
+                                 readonly [(ngModel)]="nbreFactCochees" name="nbreFactCochees"  />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </sb-card>
+
+        <sb-card class="mt-0 mb-0">
+            <div class="card-body">
+                <form> 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Montant</label>
+                                <input class="form-control form-control-sm" id="inputText" type="number"
+                                 readonly [(ngModel)]="chequeSaisi.montant" name="montant" />
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Somme factures</label>
+                                <input class="form-control form-control-sm" id="inputText" type="number"
+                                 readonly [(ngModel)]="sumFactCochees" name="sumFactCochees"  />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputText">Ecart</label>
+                                <input class="form-control form-control-sm" id="inputText" type="number"
+                                 readonly [(ngModel)]="ecart" name="ecart" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </sb-card>
+
+        <div class="form-group d-flex align-items-center justify-content-around mt-4 mb-0 float-center">
+            <div><button class="btn btn-info" [routerLink]="'/cheque/paiementCocher'">Retour</button></div>
+            <div><button class="btn btn-secondary" type="reset" (click)="onWait()" >Mise en attente</button></div>
+            <div><button class="btn btn-success" [disabled]="!isAdmin" (click)="onValidCheque()">Valider</button></div>
+
+        </div>
+
+        
+        
+    </div>
+</sb-layout-dashboard>

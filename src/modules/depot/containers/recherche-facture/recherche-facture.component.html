@@ -1,0 +1,112 @@
+<sb-layout-dashboard>
+        <sb-dashboard-head title="Edition des factures" [hideBreadcrumbs]="false"></sb-dashboard-head>
+        <div>
+            <form #f="ngForm" (ngSubmit)="onChercher(f.value)"> 
+
+                <div id="dates" class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputText">Nom Fournisseur</label>
+                            <input class="form-control form-control-sm" id="inputText" type="text"
+                             placeholder="Nom du fournisseur" 
+                             name="libelleFrs" ngModel/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputText">Utilisateur</label>
+                            <select (change)="selectChangeHandlerU($event)" class="form-control custom-select mr-sm-2" id="inlineFormCustomSelect"  required>
+                                <option selected>Choisissez...</option>
+                                <option *ngFor="let u of userlbvs._embedded.userlbvs">{{u.nomUlbv}} {{u.prenomUlbv}}</option>
+                            </select>                        
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="fournisseur" class="row" >
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputIn">Date dépôt début</label>
+                            <input class="form-control form-control-sm" id="inputIn" type="date" placeholder="CNUF du fournisseur" min="0"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputText">Date dépôt fin</label>
+                            <input class="form-control form-control-sm" id="inputText" type="date" placeholder=" " />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fournisseur" class="row" >
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputIn">Date facture début</label>
+                            <input class="form-control form-control-sm" id="inputIn" type="date" placeholder="CNUF du fournisseur" min="0"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputText">Date facture fin</label>
+                            <input class="form-control form-control-sm" id="inputText" type="date" placeholder=" " />
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0 float-right">
+                    <div><button class="btn btn-secondary" (click)="toggle = true" type="submit" >Chercher</button></div>
+                </div>
+            </form>
+            
+            <div *ngIf="toggle">
+                    <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Date dépôt</th>
+                        <th scope="col">N° Document</th>
+                        <th scope="col">Type Document</th>
+                        <th scope="col">Société</th>
+                        <th scope="col">Fournisseur</th>
+                        <th scope="col">Montant</th>
+                        <th scope="col">Nombre Jours Echéance</th>
+                        <th scope="col">Date Echéance</th>
+                        <th scope="col">Utilisateur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let f of factureList; let id = index">
+                        <td>date depot</td>
+                        <td>
+                            <span (keyup)="changeValue(id, 'numFact', $event)" (blur)="updateList(id, 'numFact', $event)" 
+                            contenteditable="true">{{f.numFact}}</span>
+                        </td>                        
+                        <td>{{f.typedoc.libelleTypedoc}}</td>
+                        <td>{{f.societe.libelleSociete}}</td>
+                        <td>{{f.fournisseur.libelleFrs}}</td>
+                        <td>
+                            <span (keyup)="changeValue(id, 'montant', $event)" (blur)="updateList(id, 'montant', $event)" 
+                            contenteditable="true">{{f.montant}}</span>
+                        </td>                         
+                        <td>
+                            <span (keyup)="changeValue(id, 'joursEcheance', $event)" (blur)="updateList(id, 'joursEcheance', $event)" 
+                            contenteditable="true">{{f.joursEcheance}}</span>
+                        </td> 
+                        <td>data echeance</td>
+                        <td>{{f.userlbv.nomUlbv}} {{f.userlbv.prenomUlbv}}</td>
+                        <td><button  [disabled]="!isAdmin" class="btn btn-secondary" (click)=onUpdateFacture(f)>Modifier</button></td>
+                        <td><button  [disabled]="!isAdmin" class="btn btn-danger" (click)=onDeleteFacture(f,id)>Supprimer</button></td>
+
+
+
+
+
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
+        </div>
+</sb-layout-dashboard>
+    

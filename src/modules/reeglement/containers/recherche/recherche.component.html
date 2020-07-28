@@ -1,0 +1,70 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Recherche des documents" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div>
+        <form #f="ngForm" (ngSubmit)="onChercher(f.value)"> 
+            <div id="dates" class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputText">Date début</label>
+                        <input class="form-control form-control-sm" id="inputText" type="date" placeholder=" "  />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputText">Date fin</label>
+                        <input class="form-control form-control-sm" id="inputText" type="date" placeholder=" " />
+                    </div>
+                </div>
+            </div>
+            
+            <div id="fournisseur" class="row" >
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputIn">CNUF</label>
+                        <input class="form-control form-control-sm" id="inputIn" type="number" 
+                        placeholder="CNUF du fournisseur" min="0" name="cnuf" ngModel />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputText">N° chèque/effet</label>
+                        <input class="form-control form-control-sm" id="inputText" type="number" 
+                        placeholder=" " min="0" name="numCheque" ngModel />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0 float-right">
+                <div><button class="btn btn-secondary" type="submit" (click)="toggle = true" >Chercher</button></div>
+            </div>
+        </form>
+        
+        <div *ngIf="toggle">
+            <form>
+        
+                <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Date de sortie chèque/effet</th>
+                    <th scope="col">Société</th>
+                    <th scope="col">CNUF</th>
+                    <th scope="col">Fournisseur</th>
+                    <th scope="col">Banque</th>
+                    <th scope="col">N° Chèque / Effet</th>
+                    <th scope="col">Montant Chèque / Effet</th>
+                    <th scope="col">Date d'échéance</th>
+                </tr>
+                </thead>
+                <tbody>          
+                    <tr *ngFor="let c of chequeList">
+                        <td>date sortie</td>
+                        <td>date d'echeance</td>
+
+
+                    </tr>
+                </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</sb-layout-dashboard>
+

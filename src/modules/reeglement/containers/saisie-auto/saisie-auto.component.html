@@ -1,0 +1,48 @@
+<sb-layout-dashboard>
+    <sb-dashboard-head title="Saisie Automatique des règlements" [hideBreadcrumbs]="false"></sb-dashboard-head>
+    <div>
+        <form #f="ngForm" (ngSubmit)="onChercher(f.value)"> 
+            <div id="dates" class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputIn">N° du Paiement</label>
+                        <input class="form-control form-control-sm" id="inputIn" type="number" 
+                        placeholder="N° du Paiement" min="0"  />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0 float-right">
+                <div><button class="btn btn-secondary" type="submit" (click)="toggle = true" >Chercher</button></div>
+            </div>
+        </form>
+        
+        <div *ngIf="toggle">
+            <form>
+        
+                <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Fournisseur</th>
+                    <th scope="col">Date Cheque</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Cocher Facture</th>
+
+                </tr>
+                </thead>
+                <tbody>          
+                    <tr *ngFor="let c of chequeList">
+                        <td>exemple</td>
+                        <td>exemple</td>
+                        <td>exemple</td>
+                        <td>exemple</td>
+
+                    </tr>
+                </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</sb-layout-dashboard>
+

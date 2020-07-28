@@ -1,0 +1,58 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$sb-admin-angular-primary: mat-palette($mat-indigo);
+$sb-admin-angular-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$sb-admin-angular-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$sb-admin-angular-theme: mat-light-theme((
+  color: (
+    primary: $sb-admin-angular-primary,
+    accent: $sb-admin-angular-accent,
+    warn: $sb-admin-angular-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($sb-admin-angular-theme);
+
+// Import Custom Variables
+@import "variables.scss";
+
+// Import Bootstrap
+@import "bootstrap/scss/bootstrap.scss";
+
+// Import Custom SCSS
+@import "global.scss";
+
+// Layout
+@import "layout/authentication.scss";
+@import "layout/dashboard-default.scss";
+@import "layout/dashboard-fixed.scss";
+@import "layout/error.scss";
+
+// Navigation
+@import "navigation/nav.scss";
+@import "navigation/topnav.scss";
+@import "navigation/sidenav/sidenav.scss";
+@import "navigation/sidenav/sidenav-dark.scss";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,14 @@
+Date depôt
+N° document
+type document
+date Fact/Av
+N° Fact /Av
+Nbr jours d'échéance
+Date échéance
+société
+utilisateur
+CNUF
+fournisseur
+Montant
+Date remise Chèque
+Type rapp

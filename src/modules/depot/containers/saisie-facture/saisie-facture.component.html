@@ -1,0 +1,193 @@
+<sb-layout-dashboard>
+        <sb-dashboard-head title="Saisie des factures" [hideBreadcrumbs]="false"></sb-dashboard-head>
+        
+        <div *ngIf="mode==1"> 
+            <form #f="ngForm" > 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">                         
+                            <label class="small mb-1" for="inputText">CNUF *</label>
+                            <input class="form-control form-control-sm" id="cnufinput"  type="number" min="0"
+                            name="cnuf" ngModel #cnuf="ngModel" (input)="onSearchChange($event.target.value)" required/>
+                        </div>
+
+                        <div *ngIf="cnuf.invalid && (cnuf.dirty || cnuf.touched)" class="alert alert-danger">
+                            <div *ngIf="cnuf.errors.required">CNUF est obligatoire.</div>
+                          </div>
+                        
+                    </div>
+                    <div class="col-md-6"  *ngIf="cnuf.valid && cnuf.touched">
+                        <div class="form-group">
+                            <div class="row">                  
+                                <div class="col-md-4"><label class="small mb-1" for="inputText">Nom Fournisseur</label></div>
+                                <div class="col-md-4"><label class="small mb-1" for="inputText">Echéance</label></div>
+                                <div class="col-md-4"><label class="small mb-1" for="inputText">Utilisateur</label></div>
+                                
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input class="form-control form-control-sm" id="inputText" type="text" placeholder="Nom Fournisseur" readonly
+                                    [(ngModel)]="frs.libelleFrs" name="libelleFrs"/>   
+                                </div>                   
+                                <div class="col-md-4">
+                                    <input class="form-control form-control-sm" id="inputText" type="number" placeholder="échéance" readonly 
+                                    [(ngModel)]="frs.echeanceFrs" name="echeanceFrs"/>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <input class="form-control form-control-sm" id="inputText" type="text" 
+                                    placeholder="Utilisateur" readonly 
+                                    [(ngModel)]="nomComplet" name="nomComplet"/>
+                                </div>        
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="fournisseur" class="row" >
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputIn">Date Dépôt *</label>
+                            <input class="form-control form-control-sm" id="inputIn"
+                             type="date" data-date="" data-date-format="dd/mm/yyyy"                            
+                            />                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputText">Date Remise de Règlement</label>
+                                <input class="form-control form-control-sm" id="inputText" type="number"
+                                 placeholder="99" min="0" name="joursEcheance" ngModel />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputText"> </label>
+                                <input class="form-control form-control-sm" id="inputText" type="date"
+                                 placeholder=" " readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fournisseur" class="row" >
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputIn">Société *</label>
+                            <select (change)="selectChangeHandlerS($event)" class="form-control custom-select mr-sm-2" id="inlineFormCustomSelect"  >
+                                <option selected>Choisissez...</option>
+                                <option required *ngFor="let s of societes._embedded.societes">{{s.libelleSociete}}</option>
+    
+                          </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputIn">Type Document *</label>
+                            <select (change)="selectChangeHandlerT($event)" class="form-control custom-select mr-sm-2" id="inlineFormCustomSelect"   >
+                                <option selected>Choisissez...</option>
+                                <option *ngFor="let t of typesDoc._embedded.typeDocs">{{t.libelleTypedoc}}</option>
+                            </select> 
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fournisseur" class="row" >
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputIn">Date Facture *</label>
+                            <input class="form-control form-control-sm" id="inputIn" type="date" min="0" required/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputText">Numéro Document *</label>
+                            <input class="form-control form-control-sm" type="text" 
+                            placeholder="1" min="0" name="numFact" ngModel #numFact="ngModel" required/>
+                        </div>
+                        <div *ngIf="numFact.invalid && (numFact.dirty || numFact.touched)" class="alert alert-danger">
+                            <div *ngIf="numFact.errors.required">numFact est obligatoire.</div>
+                          </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputText">Montant TTC *</label>
+                            <input class="form-control form-control-sm" id="inputText" type="number" 
+                            placeholder="9999" min="0"  required
+                            name="montant" ngModel #montant="ngModel"/>
+                            
+                        </div>
+                        <div *ngIf="montant.invalid && (montant.dirty || montant.touched)" class="alert alert-danger">
+                            <div *ngIf="montant.errors.required">montant est obligatoire.</div>
+                          </div>
+                        
+                    </div>
+                </div>
+
+
+
+                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0 float-center">
+                    <div><button class="btn btn-danger" type="reset">Annuler</button></div>
+                    <div><button class="btn btn-secondary" (click)="onHold(f)" (click)="toggle = true"  >Ajouter</button></div>
+                    <div><button class="btn btn-success" type="submit" (click)="onSaveFacture()" >Valider</button></div>
+
+                </div>
+            </form>
+
+
+    <div *ngIf="toggle">
+        <table class="table table-bordered table-responsive-md table-striped text-center">                
+            <thead>
+                <tr>
+                    <th scope="col">CNUF</th>
+                    <th scope="col">Nom Fournisseur</th>
+                    <th scope="col">Utilisateur</th>
+                    <th scope="col">Société</th>
+                    <th scope="col">Type Document</th>
+                    <th scope="col">Numero Document</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Date Document</th>
+                    <th scope="col">Date Dépôt</th>
+                    <th scope="col">Supprimer</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let f of facturesOnHold ; let id = index">
+                    <td>{{f.fournisseur.cnuf}}</td>
+                    <td>{{f.fournisseur.libelleFrs}}</td>
+                    <td>{{f.userlbv.nomUlbv}} {{f.userlbv.prenomUlbv}}</td>
+                    <td>{{f.societe.libelleSociete}}</td>
+                    <td>{{f.typedoc.libelleTypedoc}}</td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'numFact', $event)" (blur)="updateList(id, 'numFact', $event)" 
+                        contenteditable="true">{{f.numFact}}</span>
+                    </td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'montant', $event)" (blur)="updateList(id, 'montant', $event)" 
+                        contenteditable="true">{{f.montant}}</span>
+                    </td>                    
+                    <td>date facture</td>
+                    <td>date depot</td>
+
+                    <td><button class="btn btn-danger" (click)="onDeleteFacture(id)">Supprimer</button></td>
+
+
+
+
+
+                </tr>
+                </tbody>
+                </table>
+            </div>
+
+        
+    </div>
+    
+</sb-layout-dashboard>

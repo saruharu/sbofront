@@ -1,0 +1,36 @@
+
+        <sb-card class="col order-1 justify-content-around">
+            <div class="card-header">
+                Factures non payées
+            </div>
+            <div class="card-body">
+    
+
+
+                    <form>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">CNUF</th>
+                                    <th scope="col">Fournisseur</th>
+                                    <th scope="col">Date Facture</th>
+                                    <th scope="col">Num Facture</th>
+                                    <th scope="col">Montant</th>
+                                    <th scope="col">Cocher Facture</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let f of factureAgresso._embedded.factureAgressoes">
+                                    <td> {{f.montant}}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                        
+                    </form>
+
+            </div>
+        </sb-card>
