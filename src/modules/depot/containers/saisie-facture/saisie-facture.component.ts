@@ -54,7 +54,7 @@ export class SaisieFactureComponent implements OnInit {
     //libelleFrs=this.setLibFrs();
     echeanceFrs: any;
 
-    datee = new Date();
+    datee = new Date()
     constructor(
         private factureService:FactureService,
         private typedocService:TypedocService,
@@ -235,7 +235,7 @@ export class SaisieFactureComponent implements OnInit {
         this.factureService.saveResource(this.factureService.host+"/listFactures",data)
         .subscribe(res=>{
             this.formatJsonData(data);
-            this.currentFacture=res;
+            this.facturesOnHold.push(res);
             this.mode=2;
         },err=>{
             console.log(err);

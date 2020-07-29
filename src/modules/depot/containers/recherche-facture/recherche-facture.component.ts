@@ -7,6 +7,8 @@ import { Facture, Societe, Fournisseur, TypeDoc, Userlbv } from '@modules/depot/
 import { FactureService, TypedocService, FournisseurService, SocieteService, UserlbvService } from '@modules/depot/services';
 
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx'; 
+
 
 @Component({
     selector: 'sb-dashboard',
@@ -69,6 +71,24 @@ export class RechercheFactureComponent implements OnInit {
 
 
     ngOnInit(){}
+
+    /*name of the excel-file which will be downloaded. */ 
+fileName= 'ExcelSheet.xlsx';  
+
+exportexcel(): void 
+    {
+       /* table id is passed over here */   
+       let element = document.getElementById('excel-table'); 
+       const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
+       /* generate workbook and add the worksheet */
+       const wb: XLSX.WorkBook = XLSX.utils.book_new();
+       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+       /* save to file */
+       XLSX.writeFile(wb, this.fileName);
+			
+    }
 
     /*
     onGetFactures(){

@@ -68,7 +68,7 @@
                                     <td>{{f.fournisseur.libelleFrs}}</td>
                                     <td>{{f.dateFactAg}}</td>
                                     <td>{{f.numFactAg}}</td>
-                                    <td> {{f.montant}}</td>
+                                    <td> {{f.montant  | number:'.2'}}</td>
                                     <td> 
                                         <input type="checkbox" (change)='onSelect($event,f)'>
                                     </td>
