@@ -3,13 +3,8 @@ import { Cheque, Societe, Fournisseur, TypePaiement, Userlbv, Banque} from '@mod
 import { ChequeService, TypepaiementService, FournisseurService, SocieteService, UserlbvService, BanqueService } from '@modules/cheque/services';
 
 
-import { formatDate } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
-import { registerLocaleData } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+
 import { Router } from '@angular/router';
-import { ThrowStmt } from '@angular/compiler';
-import { EventEmitter } from 'events';
 
 @Component({
     selector: 'sb-dashboard',
@@ -55,8 +50,13 @@ export class PaiementChequeComponent implements OnInit {
 
     // FIN LISTE ROULANTE
     }
+    datee;
 
-    ngOnInit() {}
+
+    ngOnInit() {
+        this.datee = new Date();
+
+    }
 
     //Recuperer les select des listes roulantes
     selectChangeHandlerS(event: any){

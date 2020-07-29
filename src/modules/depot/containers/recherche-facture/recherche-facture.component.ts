@@ -7,8 +7,6 @@ import { Facture, Societe, Fournisseur, TypeDoc, Userlbv } from '@modules/depot/
 import { FactureService, TypedocService, FournisseurService, SocieteService, UserlbvService } from '@modules/depot/services';
 
 import { Router } from '@angular/router';
-import { NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'sb-dashboard',

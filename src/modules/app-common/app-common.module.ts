@@ -21,11 +21,17 @@ import * as appCommonGuards from './guards';
 /* Services */
 import * as appCommonServices from './services';
 import * as authServices from '@modules/auth/services';
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule,  } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule  } from '@angular/material/datepicker';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, ...thirdParty],
+    imports: [FormsModule,MatNativeDateModule, MatDatepickerModule,MatFormFieldModule, MatInputModule, CommonModule, RouterModule, ...thirdParty],
     providers: [...appCommonServices.services, ...authServices.services, ...appCommonGuards.guards],
-    declarations: [...appCommonContainers.containers, ...appCommonComponents.components],
+    declarations: [...appCommonContainers.containers, ...appCommonComponents.components, DatepickerComponent],
     exports: [...appCommonContainers.containers, ...appCommonComponents.components, ...thirdParty],
 })
 export class AppCommonModule {}

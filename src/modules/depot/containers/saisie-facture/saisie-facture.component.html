@@ -51,9 +51,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="small mb-1" for="inputIn">Date Dépôt *</label>
-                            <input class="form-control form-control-sm" id="inputIn"
-                             type="date" data-date="" data-date-format="dd/mm/yyyy"                            
-                            />                            
+                            <div id="fournisseur" class="row" >
+                            <sb-datepicker [(ngModel)]="datee" name="datee"></sb-datepicker>
+                        </div>
                         </div>
                     </div>
                     <div class="col-md-6">

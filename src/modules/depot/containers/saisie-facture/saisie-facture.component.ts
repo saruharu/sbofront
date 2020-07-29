@@ -3,15 +3,11 @@ import { Facture, Societe, Fournisseur, TypeDoc, Userlbv } from '@modules/depot/
 import { FactureService, TypedocService, FournisseurService, SocieteService, UserlbvService } from '@modules/depot/services';
 
 
-import { formatDate } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ThrowStmt } from '@angular/compiler';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { DateAdapter } from '@angular/material/core';
 
 
 
@@ -58,7 +54,7 @@ export class SaisieFactureComponent implements OnInit {
     //libelleFrs=this.setLibFrs();
     echeanceFrs: any;
 
-
+    datee = new Date();
     constructor(
         private factureService:FactureService,
         private typedocService:TypedocService,
