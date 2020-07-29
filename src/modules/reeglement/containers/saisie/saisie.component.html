@@ -9,9 +9,10 @@
                     <div class="form-group">
                         <label class="small mb-1" for="inputIn">CNUF</label>
                         <input class="form-control form-control-sm" id="cnufinput"  type="number" min="0"
-                             (input)="onSearchChange($event.target.value)" required/>
+                        name="cnuf" ngModel #cnuf="ngModel" (input)="onSearchChange($event.target.value)" required
+                             />
                     </div>
-                </div>           
+                </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Nom Fournisseur</label>
@@ -32,10 +33,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
 
             <div id="societe et facture" class="row">
                 <div class="col-md-4">
@@ -70,7 +67,7 @@
                         <label class="small mb-1" for="inputText">Type document</label>
                         <select (change)="selectChangeHandlerT($event)" class="form-control custom-select mr-sm-2" id="inlineFormCustomSelect" required>
                             <option selected>Choisissez...</option>
-                            <option  *ngFor="let s of typesPaiement._embedded.typePaiements">{{s.libelleTypepaiement}}</option>
+                            <option  *ngFor="let t of typesReglement._embedded.typeReglements">{{t.libelleTypereglement}}</option>
                         </select>
                     </div>
                 </div>
@@ -119,9 +116,8 @@
                 <tr *ngFor="let r of reglementsOnHold">
                     <td>{{r.fournisseur.cnuf}}</td>
                     <td>{{r.fournisseur.libelleFrs}}</td>
-                    <td>{{r.userlbv.nomUlbv}} {{f.userlbv.prenomUlbv}}</td>
                     <td>{{r.societe.libelleSociete}}</td>
-                    <td>{{r.typedoc.libelleTypedoc}}</td>
+                   
                     <td>{{r.numFact}}</td>
                     <td>{{r.montant}}</td>
                     <td>date facture</td>

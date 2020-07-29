@@ -3,13 +3,8 @@ import { Societe, Fournisseur, TypeReglement, Banque} from '@modules/reeglement/
 import { TypereglementService, FournisseurService, SocieteService, BanqueService } from '@modules/reeglement/services';
 
 
-import { formatDate } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
-import { registerLocaleData } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+
 import { Router } from '@angular/router';
-import { ThrowStmt } from '@angular/compiler';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'sb-saisie',
@@ -52,22 +47,19 @@ export class SaisieComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
 
 
   onSaveFacture(data){
 
     if(this.reglementsOnHold!=null) {
-        for(let index in this.reglementsOnHold)
-    this.Valider(this.reglementsOnHold[index]);
+        for(let index in this.reglementsOnHold){
+            this.Valider(this.reglementsOnHold[index]);
+        }
     }
-    
-    
-   
 
-
-
-console.log("tamaman");
-console.log(data);
+    console.log("tamaman");
+    console.log(data);
 
 //data.reset();
 //data.numFact.setErrors(null);
@@ -88,10 +80,6 @@ Valider(data){
   */
 }
 
-
-
-
-
   onHold(data){
 
 
@@ -107,7 +95,7 @@ Valider(data){
     this.societeService.getSocieteByLibelle(this.selectedSociete)
     .subscribe(res=>{
         data.value.societe=res;
-        //TypeDoc
+        //Typereglement
         this.typereglementService.getTypereglementByLibelle(this.selectedType)
         .subscribe(res=>{
             data.value.typesreglement=res;
@@ -193,31 +181,28 @@ selectChangeHandlerB(event: any){
 
   LoadData(){
     //Charger les donnees dans la liste roulante
-    this.fournisseurService.getFournisseurs()
-.subscribe(data=>{
-          this.fournisseurs=data;
-      },err=>{
-          console.log(err);
-      });
+
 
 this.societeService.getSocietes()
 .subscribe(data=>{
           this.societes=data;
-      },err=>{
-          console.log(err);
-      })   
-this.typereglementService.getTypeReglements()
-.subscribe(data=>{
-          this.typesReglement=data;
-      },err=>{
-          console.log(err);
-      })  
-this.banqueService.getBanques()
-.subscribe(data=>{
-           this.banques=data;
         },err=>{
             console.log(err);
-        })
+        });
+this.banqueService.getBanques()
+.subscribe(data=>{
+    this.banques=data;
+},err=>{
+    console.log(err);
+});
+this.typereglementService.getTypeReglements()
+.subscribe(data=>{
+    this.typesReglement=data;
+},err=>{
+    console.log(err);
+});
+
+
     }
 
 

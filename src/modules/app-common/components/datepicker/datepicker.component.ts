@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ElementRef, forwardRef } from '@angular/c
 
 import { NativeDateAdapter, DateAdapter } from "@angular/material/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AppCommonService } from '@common/services';
 
 export class FrenchDateAdapter extends NativeDateAdapter {
   parse(value: any): Date | null {
@@ -33,19 +34,27 @@ export class FrenchDateAdapter extends NativeDateAdapter {
 })
 export class DatepickerComponent implements OnInit,ControlValueAccessor, OnInit, OnDestroy {
   
-
+  public datee : any;
   locale: string;
   
-  constructor(private dateAdapter: DateAdapter<Date>, private el: ElementRef) {
+  constructor(private dateAdapter: DateAdapter<Date>, private el: ElementRef, private appcommonservice : AppCommonService) {
     this.locale = 'fr';
     this.dateAdapter.setLocale('fr');   
-
+    this.appcommonservice.date = this.datee;
+    
   }
+
   
   ngOnInit(): void {
 
   }
 
+
+  OnDateChange($event){
+    this.datee = $event.value;
+    console.log("date??"+ this.datee);
+    return this.datee;
+  }
 
 
     private value: any;
@@ -74,8 +83,8 @@ export class DatepickerComponent implements OnInit,ControlValueAccessor, OnInit,
     ngOnDestroy() {
   
     }
-  }
 
+  }
 
 
 

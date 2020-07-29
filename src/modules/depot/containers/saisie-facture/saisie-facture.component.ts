@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { NgModule, LOCALE_ID } from '@angular/core';
+import { AppCommonService } from '@common/services';
 
 
 
@@ -54,15 +55,18 @@ export class SaisieFactureComponent implements OnInit {
     //libelleFrs=this.setLibFrs();
     echeanceFrs: any;
 
-    datee = new Date()
+    datee: any;
     constructor(
         private factureService:FactureService,
         private typedocService:TypedocService,
         private fournisseurService:FournisseurService,
         private societeService:SocieteService,
         private userlbvService:UserlbvService,
-        private router:Router)
+        private router:Router,
+        private appcommonService: AppCommonService)
         {
+        this.datee = this.appcommonService.date;
+
 
 
         //Charger les data dans les listes roulantes
@@ -150,11 +154,14 @@ export class SaisieFactureComponent implements OnInit {
 
 
     onSaveFacture(){
+        if(this.facturesOnHold!=null) {
+            for(let index in this.facturesOnHold){
+                console.log("serv"+this.datee);
 
-                    if(this.facturesOnHold!=null) {
-                        for(let index in this.facturesOnHold)
-                    this.Valider(this.facturesOnHold[index]);
-                    }
+                console.log("dateform"+this.facturesOnHold[index].dateDepot);
+                this.Valider(this.facturesOnHold[index]);
+            }
+        }
                     
                    
 
@@ -294,7 +301,7 @@ formatJsonData(data){
      numFact: data.numFact,
      montant: data.montant,
      joursEcheance: data.joursEcheance,
-     dateDepot: Date.parse(data.dateDepot),
+     dateDepot: this.datee,
      fournisseur:{
          cnuf: data.fournisseur.cnuf,
          libelleFrs: data.fournisseur.libelleFrs,

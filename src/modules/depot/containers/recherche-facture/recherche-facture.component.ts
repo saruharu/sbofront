@@ -18,7 +18,7 @@ import * as XLSX from 'xlsx';
 })
 export class RechercheFactureComponent implements OnInit {
 
-    public isAdmin = true;
+    public isAdmin = false;
     public userlbvs:any;
 
     public selectedUser;

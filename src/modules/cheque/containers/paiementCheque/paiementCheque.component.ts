@@ -209,7 +209,7 @@ export class PaiementChequeComponent implements OnInit {
         }
     
     SplitNames(){
-            this.splitUlbv=this.selectedUser.split(" ");
+            this.splitUlbv=this.nomComplet.split(" ");
             this.selectedNom = this.splitUlbv[0];
             this.selectedPrenom = this.splitUlbv[1];
         }
