@@ -78,7 +78,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let f of factureList; let id = index">
-                        <td>date depot</td>
+                        <td>{{f.dateDepot}}</td>
                         <td>
                             <span (keyup)="changeValue(id, 'numFact', $event)" (blur)="updateList(id, 'numFact', $event)" 
                             contenteditable="true">{{f.numFact}}</span>

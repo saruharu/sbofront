@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label class="small mb-1" for="inputIn">Date Dépôt *</label>
                             <div id="fournisseur" class="row" >
-                            <sb-datepicker ngModel #dateDepot="ngModel"  name="dateDepot"></sb-datepicker>
+                            <sb-datepicker name="dateDepot" ngModel #dateDepot="ngModel" ></sb-datepicker>
                         </div>
                         </div>
                     </div>
@@ -174,7 +174,8 @@
                         contenteditable="true">{{f.montant  | number:'.2'}}</span>
                     </td>                    
                     <td>date facture</td>
-                    <td>date depot</td>
+                    <td>{{f.dateDepot}}</td>
+
 
                     <td><button class="btn btn-danger" (click)="onDeleteFacture(id)">Supprimer</button></td>
 

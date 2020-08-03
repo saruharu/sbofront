@@ -40,7 +40,6 @@ export class DatepickerComponent implements OnInit,ControlValueAccessor, OnInit,
   constructor(private dateAdapter: DateAdapter<Date>, private el: ElementRef, private appcommonservice : AppCommonService) {
     this.locale = 'fr';
     this.dateAdapter.setLocale('fr');   
-    this.appcommonservice.date = this.datee;
     
   }
 
@@ -53,6 +52,8 @@ export class DatepickerComponent implements OnInit,ControlValueAccessor, OnInit,
   OnDateChange($event){
     this.datee = $event.value;
     console.log("date??"+ this.datee);
+    this.appcommonservice.date = this.datee;
+
     return this.datee;
   }
 

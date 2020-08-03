@@ -107,11 +107,11 @@ export class SaisieFactureComponent implements OnInit {
     ngOnInit(): void {
         //Date en francais configuration ( . . . in construction. . . )
             console.log("blabla");
-            console.log("hui")
+            console.log("hui");
             this.factureTest = new Facture();
             console.log(new Date().toLocaleDateString("en-Fr"));
             this.factureTest.dateDepot = new Date();
-            console.log("hui1")
+            console.log("hui1");
             console.log(this.factureTest.dateDepot.toLocaleDateString());
     }
 
@@ -177,7 +177,13 @@ export class SaisieFactureComponent implements OnInit {
      
     onHold(f){
 
+        const options = { year: "numeric", month: "numeric", day: "numeric" };
+        this.datee = this.appcommonService.date.toLocaleDateString('fr-FR', options);
 
+        f.value.dateDepot =  this.datee;
+        console.log("dateservice"+this.datee);
+
+        console.log("datedepot"+f.value.dateDepot);
         // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)      
         this.facturesOnHold.push(f.value);
 
@@ -215,18 +221,12 @@ export class SaisieFactureComponent implements OnInit {
     });
 
 
-/*
-        this.RetrieveDataJson(data.value);
-        this.formatJsonData(data.value);
-
-*/
-
-
-
         console.log("data.value");
         console.log(f.value);
         console.log("onHold");
         console.log(this.facturesOnHold);
+        console.log("dateee");
+        console.log(f.dateDepot);
         /*
 
             var resetButton = (data.value.numFact);
@@ -241,7 +241,7 @@ export class SaisieFactureComponent implements OnInit {
     Valider(data){
         this.factureService.saveResource(this.factureService.host+"/listFactures",data)
         .subscribe(res=>{
-            this.formatJsonData(data);
+            //this.formatJsonData(data);
             this.facturesOnHold.push(res);
             this.mode=2;
         },err=>{
