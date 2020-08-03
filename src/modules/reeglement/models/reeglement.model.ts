@@ -6,6 +6,7 @@ import { Facture } from 'modules/depot/models';
 
 export class Cheque{
     public idReglement: number;
+    public numCheque: string;
     public dateDepot: Date;
     public dateCheque: Date;
     public montant: number;

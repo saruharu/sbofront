@@ -6,13 +6,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Date début</label>
-                        <input class="form-control form-control-sm" id="inputText" type="date" placeholder=" "  />
+                        <sb-datepicker></sb-datepicker>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Date fin</label>
-                        <input class="form-control form-control-sm" id="inputText" type="date" placeholder=" " />
+                        <sb-datepicker></sb-datepicker>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
         <div *ngIf="toggle">
             <form>
         
-                <table class="table table-striped">
+                <table class="table table-striped" id="excel-table">
                 <thead>
                 <tr>
                     <th scope="col">Date de sortie chèque/effet</th>
@@ -61,14 +61,19 @@
                         <td>{{r.fournisseur.cnuf}}</td>
                         <td>{{r.fournisseur.libelleFrs}}</td>
                         <td>{{r.banque.libelleBanque}}</td>
-                        <td>n cheque</td>
+                        <td>{{r.numCheque}}</td>
                         <td>{{r.montant | number:'.2'}}</td>
                         <td>date echeance</td>
+                        <td><button  [disabled]="!isAdmin" class="btn btn-secondary" (click)=onUpdateReglement(r)>Modifier</button></td>
+                        <td><button  [disabled]="!isAdmin" class="btn btn-danger" (click)=onDeleteReglement(r,id)>Supprimer</button></td>
+
 
 
                     </tr>
                 </tbody>
                 </table>
+                <div><button class="btn btn-secondary" (click)="exportexcel()" >Télécharger</button></div>
+
             </form>
         </div>
     </div>

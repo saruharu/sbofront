@@ -165,11 +165,17 @@ export class RechercheComponent implements OnInit {
 
 
 
-   /*name of the excel-file which will be downloaded. */ 
-fileName= 'ExcelSheet.xlsx';  
+    /*name of the excel-file which will be downloaded. */ 
+    fileDate = new Date();
+    fileName: string;  
 
 exportexcel(): void 
     {
+      const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+
+      this.fileName = 'Règlements-'+this.fileDate.toLocaleDateString('fr-FR', options)+'.xlsx'
+console.log(this.fileDate.toLocaleDateString('fr-FR', options));
+
        /* table id is passed over here */   
        let element = document.getElementById('excel-table'); 
        const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
