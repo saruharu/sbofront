@@ -28,8 +28,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">N° chèque/effet</label>
-                        <input class="form-control form-control-sm" id="inputText" type="number" 
-                        placeholder=" " min="0" name="numCheque" ngModel />
+                        <input class="form-control form-control-sm" id="inputText" type="text" 
+                        placeholder=" " name="numCheque" ngModel />
                     </div>
                 </div>
             </div>
@@ -55,9 +55,15 @@
                 </tr>
                 </thead>
                 <tbody>          
-                    <tr *ngFor="let c of chequeList">
-                        <td>date sortie</td>
-                        <td>date d'echeance</td>
+                    <tr *ngFor="let r of reglementList">
+                        <td>Date sortie</td>
+                        <td>{{r.societe.libelleSociete}}</td>
+                        <td>{{r.fournisseur.cnuf}}</td>
+                        <td>{{r.fournisseur.libelleFrs}}</td>
+                        <td>{{r.banque.libelleBanque}}</td>
+                        <td>n cheque</td>
+                        <td>{{r.montant | number:'.2'}}</td>
+                        <td>date echeance</td>
 
 
                     </tr>

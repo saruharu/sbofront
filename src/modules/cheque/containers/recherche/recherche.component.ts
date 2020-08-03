@@ -37,10 +37,14 @@ export class RechercheComponent implements OnInit {
 
     
     /*name of the excel-file which will be downloaded. */ 
-fileName= 'ExcelSheet.xlsx';  
+    fileDate = new Date();
+    fileName: string;  
 
 exportexcel(): void 
     {
+        const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+
+      this.fileName = 'Chèques-'+this.fileDate.toLocaleDateString('fr-FR', options)+'.xlsx'
        /* table id is passed over here */   
        let element = document.getElementById('excel-table'); 
        const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
@@ -162,8 +166,9 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
                                     this.chequeList[index].factAgs=res["_embedded"].factureAgressoes;
                                     for (let j = 0; j < this.chequeList[index].factAgs.length; j++){
                                         this.numFactsList+= this.chequeList[index].factAgs[j].numFactAg +" ; ";
-                                        this.montantFactsSum +=this.chequeList[index].factAgs[j].montant
+                                        this.montantFactsSum +=this.chequeList[index].factAgs[j].montant;
                                     }
+                                    
                                         console.log('montant is',this.montantFactsSum);
                                         console.log("nums are:",this.numFactsList);
                                     },err=>{
@@ -188,6 +193,8 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
                     console.log(err);
                 });
             }
+            this.numFactsList= '';
+            this.montantFactsSum=0;
               },err=>{
                   console.log(err);
               });

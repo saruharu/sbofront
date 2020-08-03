@@ -5,6 +5,7 @@ import { TypereglementService, FournisseurService, SocieteService, BanqueService
 
 
 import { Router } from '@angular/router';
+import { Reglement } from '@modules/tables/models';
 
 @Component({
   selector: 'sb-saisie',
@@ -80,39 +81,36 @@ Valider(data){
   */
 }
 
-  onHold(data){
 
+
+  onHold(r){
 
     // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)      
-    this.reglementsOnHold.push(data.value);
+    this.reglementsOnHold.push(r.value);
+    console.log( "here",this.reglementsOnHold);
 
     //Fournisseur
-    this.fournisseurService.getFournisseur(data.value.cnuf)
+    this.fournisseurService.getFournisseur(r.value.cnuf)
     .subscribe(res=>{
-        data.value.fournisseur= res;
+        r.value.fournisseur= res;
+    },err=>{
+        console.log(err);
+    });
     //this.currentFacture=res;
     //Societe
     this.societeService.getSocieteByLibelle(this.selectedSociete)
     .subscribe(res=>{
-        data.value.societe=res;
-        //Typereglement
-        this.typereglementService.getTypereglementByLibelle(this.selectedType)
-        .subscribe(res=>{
-            data.value.typesreglement=res;
-            //User
-            
-        },err=>{
-            console.log(err);
-        });
+        r.value.societe=res;
     },err=>{
         console.log(err);
     });
-    
-    
-
-},err=>{
-    console.log(err);
-});
+        //Typereglement
+        this.typereglementService.getTypereglementByLibelle(this.selectedType)
+        .subscribe(res=>{
+            r.value.typesreglement=res;
+        },err=>{
+            console.log(err);
+        });
 
 
 /*
@@ -121,8 +119,9 @@ Valider(data){
 
 */
 
-    console.log("data.value");
-    console.log(data.value);
+
+    console.log("r.value");
+    console.log(r.value);
     console.log("onHold");
     console.log(this.reglementsOnHold);
     /*
@@ -170,15 +169,11 @@ isFrs(): boolean{
 }
 selectChangeHandlerT(event: any){
     this.selectedType=event.target.value;
-
 }
 
 selectChangeHandlerB(event: any){
     this.selectedBanque=event.target.value;
 }
-
-
-
   LoadData(){
     //Charger les donnees dans la liste roulante
 
@@ -204,9 +199,4 @@ this.typereglementService.getTypeReglements()
 
 
     }
-
-
-
-
-
 }

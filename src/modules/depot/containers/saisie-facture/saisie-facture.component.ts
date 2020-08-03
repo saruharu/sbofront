@@ -358,7 +358,7 @@ onDeleteFacture(id){
         console.log("hereeee"+this.facturesOnHold);
         }
     }
-    updateList(id: number, property: string, event: any) {
+updateList(id: number, property: string, event: any) {
         const editField = event.target.textContent;
         this.facturesOnHold[id][property] = editField;
       }

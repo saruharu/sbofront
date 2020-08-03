@@ -73,10 +73,18 @@ export class RechercheFactureComponent implements OnInit {
     ngOnInit(){}
 
     /*name of the excel-file which will be downloaded. */ 
-fileName= 'ExcelSheet.xlsx';  
+    fileDate = new Date();
+    fileName: string;  
 
 exportexcel(): void 
     {
+      const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+
+      this.fileName = 'Factures-'+this.fileDate.toLocaleDateString('fr-FR', options)+'.xlsx'
+console.log(this.fileDate.toLocaleDateString('fr-FR', options));
+
+// expected output: Donnerstag, 20. Dezember 2012
+
        /* table id is passed over here */   
        let element = document.getElementById('excel-table'); 
        const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
