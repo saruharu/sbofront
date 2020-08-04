@@ -13,5 +13,5 @@ export class StatutFService {
 
 
   public getStatut(idStatut: number){
-    return this.httpClient.get(this.host+"/statutFactures/"+idStatut);
+    return this.httpClient.get(this.host+"/statutFactureMAs/"+idStatut);
   }}

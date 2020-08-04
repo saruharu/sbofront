@@ -54,7 +54,7 @@ export class PaiementValiderComponent implements OnInit {
         //set cheque status = validated
         //save cheque
         
-        this.statutCService.getStatut(2)
+        this.statutCService.getStatut(1)
         .subscribe(res=>{
             this.chequeSaisi.statut=res;
 
@@ -66,23 +66,24 @@ export class PaiementValiderComponent implements OnInit {
             
 
             for(let index in this.factAgsCochees){
-                this.statutFService.getStatut(2)
+                this.statutFService.getStatut(1)
                 .subscribe(res=>{
                     this.factAgsCochees[index].statut=res;
                     console.log("statut facture",this.factAgsCochees[index].statut);
 
                 console.log("this.savedCheque.idCheque",this.savedCheque);
-                        this.factagService.updateResource(this.factAgsCochees[index].idFactAg,  this.savedCheque)
+                        this.factagService.updateResourceStatutValid(this.factAgsCochees[index].idFactAg, this.savedCheque)
                         .subscribe(res=>{
+                            
                             this.factAgsCochees[index]=res;
                             console.log(this.factAgsCochees[index]);
-                            },err=>{
-                              console.log(err);
-                            });                   },err=>{
-                                console.log(err);
-                              });
-
-                    }
+                        },err=>{
+                            console.log(err);
+                        });
+                    },err=>{
+                        console.log(err);
+                    });
+                }
                     
             },err=>{
               console.log(err);
@@ -91,10 +92,6 @@ export class PaiementValiderComponent implements OnInit {
         },err=>{
             console.log(err);
         })
-        //this.chequeSaisi.statut.idStatut=1;
-
-            console.log("saved after",this.savedCheque);
-
             this.Redirect();
     }
     
@@ -112,7 +109,7 @@ export class PaiementValiderComponent implements OnInit {
         //set cheque status = validated
         //save cheque
         
-        this.statutCService.getStatut(1)
+        this.statutCService.getStatut(2)
         .subscribe(res=>{
             this.chequeSaisi.statut=res;
 
@@ -124,22 +121,24 @@ export class PaiementValiderComponent implements OnInit {
             
 
             for(let index in this.factAgsCochees){
+                
+        
                 console.log("this.savedCheque.idCheque",this.savedCheque);
-                        this.factagService.updateResource(this.factAgsCochees[index].idFactAg,  this.savedCheque)
+                        this.factagService.updateResourceStatutWait(this.factAgsCochees[index].idFactAg,  this.savedCheque)
                         .subscribe(res=>{
+                            
                             this.factAgsCochees[index]=res;
                             console.log(this.factAgsCochees[index]);
                             },err=>{
                               console.log(err);
                             });
-                    }
-            },err=>{
-              console.log(err);
-            });
-        },err=>{
-            console.log(err);
-        })
-        this.chequeSaisi.statut.idStatut=1;
+                        }
+                    },err=>{
+                        console.log(err);
+                    });
+                },err=>{
+                    console.log(err);
+                })
 
             console.log("saved after",this.savedCheque);
 
@@ -149,7 +148,7 @@ export class PaiementValiderComponent implements OnInit {
 
 
         //cheque status = onhold
-        this.chequeService.onWaitList.push(this.chequeSaisi);
+        //this.chequeService.onWaitList.push(this.chequeSaisi);
         //this.router.navigate(['/cheque/paiementCheque']);  
         this.Redirect();
 

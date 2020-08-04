@@ -160,11 +160,26 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let f of facturesOnHold ; let id = index">
-                    <td>{{f.fournisseur.cnuf}}</td>
-                    <td>{{f.fournisseur.libelleFrs}}</td>
-                    <td>{{f.userlbv.nomUlbv}} {{f.userlbv.prenomUlbv}}</td>
-                    <td>{{f.societe.libelleSociete}}</td>
-                    <td>{{f.typedoc.libelleTypedoc}}</td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'fournisseur','cnuf', $event)" (blur)="updateListFrsCNUF(id, 'fournisseur','cnuf', $event)" 
+                        contenteditable="true">{{f.fournisseur.cnuf}}</span>
+                    </td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'fournisseur','libelleFrs', $event)" (blur)="updateListFrs(id, 'fournisseur','libelleFrs', $event)" 
+                        contenteditable="true">{{f.fournisseur.libelleFrs}}</span>
+                    </td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'userlbv','nomUlbv','prenomUlbv', $event)" (blur)="updateListUser(id, 'userlbv','nomUlbv','prenomUlbv', $event)" 
+                        contenteditable="true">{{f.userlbv.nomUlbv}} {{f.userlbv.prenomUlbv}}</span>
+                    </td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'societe','libelleSociete', $event)" (blur)="updateListSociete(id, 'societe','libelleSociete', $event)" 
+                        contenteditable="true">{{f.societe.libelleSociete}}</span>
+                    </td>
+                    <td>
+                        <span (keyup)="changeValue(id, 'typedoc','libelleTypedoc', $event)" (blur)="updateListTypedoc(id, 'typedoc','libelleTypedoc', $event)" 
+                        contenteditable="true">{{f.typedoc.libelleTypedoc}}</span>
+                    </td>
                     <td>
                         <span (keyup)="changeValue(id, 'numFact', $event)" (blur)="updateList(id, 'numFact', $event)" 
                         contenteditable="true">{{f.numFact}}</span>
@@ -172,9 +187,16 @@
                     <td>
                         <span (keyup)="changeValue(id, 'montant', $event)" (blur)="updateList(id, 'montant', $event)" 
                         contenteditable="true">{{f.montant  | number:'.2'}}</span>
-                    </td>                    
-                    <td>{{f.dateFact}}</td>
-                    <td>{{f.dateDepot}}</td>
+                    </td>      
+                    <td>
+                        <span (keyup)="changeValue(id, 'dateFact', $event)" (blur)="updateList(id, 'dateFact', $event)" 
+                        contenteditable="true">{{f.dateFact}}</span>
+                    </td> 
+                    <td>
+                        <span (keyup)="changeValue(id, 'dateDepot', $event)" (blur)="updateList(id, 'dateDepot', $event)" 
+                        contenteditable="true">{{f.dateDepot}}</span>
+                    </td>                
+                    
 
 
                     <td><button class="btn btn-danger" (click)="onDeleteFacture(id)">Supprimer</button></td>

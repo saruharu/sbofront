@@ -179,7 +179,7 @@ export class SaisieFactureComponent implements OnInit {
 
         const options = { year: "numeric", month: "numeric", day: "numeric" };
         this.datee = this.appcommonService.date.toLocaleDateString('fr-FR', options);
-
+        f.value.dateFact =  this.datee;
         f.value.dateDepot =  this.datee;
         console.log("dateservice"+this.datee);
 
@@ -249,9 +249,6 @@ export class SaisieFactureComponent implements OnInit {
         });
         this.Redirect();
     }
-
-
-
 
     RetrieveDataJson(data){
 
@@ -361,6 +358,69 @@ onDeleteFacture(id){
 updateList(id: number, property: string, event: any) {
         const editField = event.target.textContent;
         this.facturesOnHold[id][property] = editField;
+      }
+
+
+updateListTypedoc(id: number, property: string,attribute:string, event: any) {
+        const editField = event.target.textContent;
+        this.typedocService.getTypedocByLibelle(editField)
+        .subscribe(res=>{
+            this.facturesOnHold[id][property] =res;
+        },err=>{
+            console.log(err);
+        });
+        this.facturesOnHold[id][property][attribute] = editField;
+      }      
+updateListSociete(id: number, property: string,attribute:string, event: any) {
+        const editField = event.target.textContent;
+        this.societeService.getSocieteByLibelle(editField)
+        .subscribe(res=>{
+            this.facturesOnHold[id][property] =res;
+        },err=>{
+            console.log(err);
+        });
+        this.facturesOnHold[id][property][attribute] = editField;
+      }
+
+updateListFrs(id: number, property: string,attribute:string, event: any) {
+        const editField = event.target.textContent;
+        this.fournisseurService.getFournisseurByLibelle(editField)
+        .subscribe(res=>{
+            this.facturesOnHold[id][property] =res;
+        },err=>{
+            console.log(err);
+        });
+        this.facturesOnHold[id][property][attribute] = editField;
+
+      }
+
+updateListFrsCNUF(id: number, property: string,attribute:string, event: any) {
+        const editField = event.target.textContent;
+        this.fournisseurService.getFournisseur(editField)
+        .subscribe(res=>{
+            this.facturesOnHold[id][property] =res;
+        },err=>{
+            console.log(err);
+        });
+        this.facturesOnHold[id][property][attribute] = editField;
+      }
+
+updateListUser(id: number, property: string,attribute1:string,attribute2:string, event: any) {
+        const editField = event.target.textContent;
+        this.splitUlbv=editField.split(" ");
+        this.selectedNom = this.splitUlbv[0];
+        this.selectedPrenom = this.splitUlbv[1];
+
+        this.userlbvService.getUserlbvByNoms(this.selectedNom,this.selectedPrenom)
+        .subscribe(res=>{
+            this.facturesOnHold[id][property] =res;
+        },err=>{
+            console.log(err);
+        });
+        this.facturesOnHold[id][property][attribute1] = this.selectedNom;
+        this.facturesOnHold[id][property][attribute2] = this.selectedPrenom;
+
+
       }
 }
 

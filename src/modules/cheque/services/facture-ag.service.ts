@@ -33,8 +33,12 @@ export class FactureAgService {
     return this.httpClient.get(this.host+"/factureAgressoes/search/byCriteria?cnuf="+cnuf);
   }
  //test test
-  public updateResource(idFactAg: number,idCheque: number){
-    return this.httpClient.post(this.host+"/listFactAgs/"+idFactAg,idCheque);
+  public updateResourceStatutValid(idFactAg: number,idCheque: number){
+    return this.httpClient.post(this.host+"/listFactAgsValid/"+idFactAg,idCheque);
+  }
+
+  public updateResourceStatutWait(idFactAg: number,idCheque: number){
+    return this.httpClient.post(this.host+"/listFactAgsWait/"+idFactAg,idCheque);
   }
 
     public getFactAgsByHref(url?): Observable<FactureAgresso[]>{

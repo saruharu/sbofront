@@ -48,13 +48,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Date dépôt</label>
-                        <sb-datepicker></sb-datepicker>
+                        <sb-datepicker name="dateDepot" ngModel #dateDepot="ngModel"></sb-datepicker>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Date échéance</label>
-                        <sb-datepicker></sb-datepicker>
+                        <sb-datepicker name="dateReglement" ngModel #dateReglement="ngModel"></sb-datepicker>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">N° chèque/effet</label>
                         <input class="form-control form-control-sm" type="text" 
-                        placeholder="1" min="0"  required />
+                        placeholder="1" min="0"  required name="numCheque" ngModel />
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@
             <div class="form-group d-flex align-items-center justify-content-around mt-4 mb-0">
                 <div><button class="btn btn-danger" type="reset" >Annuler</button></div>
                 <div><button class="btn btn-secondary" (click)="onHold(r)" >Ajouter</button></div>
-                <div><button class="btn btn-success" type="submit" (click)="onSaveR(r.value)" >Valider</button></div>
+                <div><button class="btn btn-success" type="submit" (click)="onSaveReglement(r.value)" >Valider</button></div>
             </div>
         </form>
 
@@ -112,17 +112,15 @@
             </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let r of reglementsOnHold">
+                <tr *ngFor="let r of reglementsOnHold; let id = index">
                     <td>{{r.fournisseur.cnuf}}</td>
+                    <td>{{r.societe.libelleSociete}}</td>
+                    <td>{{r.typereglement.libelleTypereglement}}</td>
+                    <td>{{r.banque.libelleBanque}}</td>
                     <td>{{r.montant | number:'.2'}}</td>
-                    <td>date echeance</td>
+                    <td>{{r.dateReglement}}</td>
 
-                    <td><button class="btn btn-secondary" >Modifier</button></td>
-                    <td><button class="btn btn-danger" >Supprimer</button></td>
-
-
-
-
+                    <td><button class="btn btn-danger" (click)="onDeleteReglement(id)">Supprimer</button></td>
 
                 </tr>
                 </tbody>

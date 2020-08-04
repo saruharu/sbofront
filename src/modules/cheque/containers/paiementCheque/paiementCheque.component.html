@@ -18,7 +18,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Date de Dépôt *</label>
-                        <sb-datepicker [(ngModel)]="datee" name="datee"></sb-datepicker>
+                        <sb-datepicker  name="dateDepot" ngModel #dateDepot="ngModel"></sb-datepicker>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="small mb-1" for="inputText">Date Document *</label>
-                        <sb-datepicker></sb-datepicker>
+                        <sb-datepicker  name="dateCheque" ngModel #dateCheque="ngModel"></sb-datepicker>
                     </div>
                 </div>
                 

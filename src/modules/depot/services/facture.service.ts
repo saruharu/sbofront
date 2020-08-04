@@ -36,9 +36,9 @@ export class FactureService {
     return this.httpClient.get(this.host+"/factures/search//byIdSociete?id_societe="+idSociete);
   }
 
-  public getFacturesByCriteria(idUlbv?: any,  libF?: any){
+  public getFacturesByCriteria(nom?: any, prenom?:any,  libF?: any){
       if((libF!=null)||(libF!=undefined)){ this.libFbit="&libF="+libF;}
-      if((idUlbv!=null)||(idUlbv!=undefined)) {this.ulbvbit="&id_ulbv="+idUlbv;}
+      if((nom!=null)&&(nom!=undefined)&&(prenom!=null)&&(prenom!=undefined)) {this.ulbvbit="&nom_ulbv="+nom+"&prenom_ulbv="+prenom;}
     return this.httpClient
         .get(this.hostCriteria+this.libFbit+this.ulbvbit);
   }

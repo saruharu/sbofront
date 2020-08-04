@@ -1,6 +1,5 @@
 import { Fournisseur } from './fournisseur.model';
 import { Societe } from './societe.model';
-import { Userlbv } from './userlbv.model';
 import { TypeDoc } from './typedoc.model';
 
 import { registerLocaleData } from '@angular/common';
@@ -24,7 +23,6 @@ export class Facture{
     public dateFact: Date;
     public dateRemise: Date;
     public joursEcheance: number;
-    public userlbv?: Userlbv;
     public societe?: Societe;
     public fournisseur?: Fournisseur;
     public typedoc?: TypeDoc;

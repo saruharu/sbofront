@@ -51,14 +51,14 @@ export class ChequeService {
   }
   
 
-  public getChequesByCriteria(numCheque?:any, cnuf?:any, libF?: any){
+  public getChequesByCriteria(numCheque?:any, cnuf?:any, libF?: any,numFactAg?:any){
     if((cnuf!=null)||(cnuf!=undefined)){ this.cnufbit="&cnuf="+cnuf;}
     if((libF!=null)||(libF!=undefined)){ this.libFbit="&libF="+libF;}
     if((numCheque!=null)||(numCheque!=undefined)) {this.numchequebit="&num_cheque="+numCheque;}
-    //if((numFactAg!=null)||(numFactAg!=undefined)) {this.numFactAgbit="&numFactAg="+numFactAg;}
+    if((numFactAg!=null)||(numFactAg!=undefined)) {this.numFactAgbit="&numFactAg="+numFactAg;}
 
   return this.httpClient
-      .get(this.hostCriteria+this.cnufbit+this.libFbit+this.numchequebit);
+      .get(this.hostCriteria+this.cnufbit+this.libFbit+this.numchequebit+this.numFactAgbit);
 }
 
 

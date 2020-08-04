@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ChequeService, BanqueService, FactureAgService } from '@modules/cheque/services';
 import { TypepaiementService } from '@modules/cheque/services';
-import { FournisseurService, SocieteService, UserlbvService } from '@modules/cheque/services';
+import { FournisseurService, SocieteService } from '@modules/cheque/services';
 import { Router } from '@angular/router';
 import { Fournisseur } from '@modules/depot/models';
 import * as XLSX from 'xlsx'; 
@@ -29,7 +29,6 @@ export class RechercheComponent implements OnInit {
         private typepaiementService:TypepaiementService,
         private fournisseurService:FournisseurService,
         private societeService:SocieteService,
-        private userlbvService:UserlbvService,
         private banqueService:BanqueService,
         private factAgService:FactureAgService,
         private router:Router) {}
@@ -89,24 +88,16 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
     console.log("currentlibf", this.currentLibF);
   }
 
-/*
     if((data.numFactAg!=null)||(data.numFactAg!=undefined)){
         this.factAgService.getFactAgByNum(data.numFactAg)
         .subscribe(res=>{
-            data.factAgs=res;
+            data.factAgs=res["_embedded"].factureAgressoes[0];
         },err=>{
             console.log(err);
         });
 }
-*/
 
-    //Forcer le type cheque
-      console.log("data lwla");
-      console.log(data);
-
-
-/*
-      if((data.factAgs!=empty)||(data.factAgs!=undefined)){
+ if((data.factAgs!=null)||(data.factAgs!=undefined)){
         this.currentFactAg = data.factAgs;
         
         this.currentNumFactAg = this.currentFactAg.numFactAg;
@@ -114,6 +105,15 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
         console.log("currentNumFactAg", this.currentNumFactAg);
    
          }
+
+
+    //Forcer le type cheque
+      console.log("data lwla");
+      console.log(data);
+
+
+/*
+     
   
          */
 
@@ -133,7 +133,7 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
 
         //Trouver les cheques
         this.chequeService.getChequesByCriteria(this.currentnumcheque,this.currentCnuf, 
-            this.currentLibF)
+            this.currentLibF,this.currentNumFactAg)
         .subscribe(data=>{
                   this.chequeList=data["_embedded"].cheques;
                   console.log("haha",this.chequeList);
@@ -143,9 +143,7 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
             this.societeService.getSocieteByHref(this.chequeList[index]._links.societe.href)
             .subscribe(res=>{
                 this.chequeList[index].societe=res;
-                this.userlbvService.getUlbvByHref(this.chequeList[index]._links.userlbv.href)
-                .subscribe(res=>{
-                    this.chequeList[index].userlbv=res;
+
 
                     this.fournisseurService.getFournisseurByHref(this.chequeList[index]._links.fournisseur.href)
                     .subscribe(res=>{
@@ -174,6 +172,7 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
                                     },err=>{
                                         console.log(err);
                                     });
+
                                 },err=>{
                                     console.log(err);
                                 });
@@ -185,10 +184,7 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
                         },err=>{
                             console.log(err);
                         });
-
-                    },err=>{
-                        console.log(err);
-                    });
+                   
                 },err=>{
                     console.log(err);
                 });
@@ -236,9 +232,6 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
             this.societeService.getSocieteByHref(chequeList[index]._links.societe.href)
             .subscribe(res=>{
                 chequeList[index].societe=res;
-                this.userlbvService.getUlbvByHref(chequeList[index]._links.userlbv.href)
-                .subscribe(res=>{
-                    chequeList[index].userlbv=res;
 
                     this.fournisseurService.getFournisseurByHref(chequeList[index]._links.fournisseur.href)
                     .subscribe(res=>{
@@ -279,9 +272,7 @@ if((data.fournisseur!=null)||(data.fournisseur!=undefined)){
                             console.log(err);
                         });
 
-                    },err=>{
-                        console.log(err);
-                    });
+                  
                 },err=>{
                     console.log(err);
                 });

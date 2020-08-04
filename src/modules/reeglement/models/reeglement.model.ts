@@ -4,11 +4,11 @@ import { TypeReglement } from './typereglement.model';
 import { Banque } from './banque.model';
 import { Facture } from 'modules/depot/models';
 
-export class Cheque{
+export class Reglement{
     public idReglement: number;
     public numCheque: string;
     public dateDepot: Date;
-    public dateCheque: Date;
+    public dateReglement: Date;
     public montant: number;
     public facts: Facture[];
     public societe: Societe;
@@ -16,3 +16,5 @@ export class Cheque{
     public typereglement: TypeReglement;
     public banque: Banque;
 }
+
+

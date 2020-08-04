@@ -5,6 +5,7 @@ import { ChequeService, TypepaiementService, FournisseurService, SocieteService,
 
 
 import { Router } from '@angular/router';
+import { AppCommonService } from '@common/services';
 
 @Component({
     selector: 'sb-dashboard',
@@ -17,14 +18,12 @@ export class PaiementChequeComponent implements OnInit {
     public typesPaiement:any;
     public fournisseurs:any;
     public societes:any;
-    public userlbvs:any;
     public banques:any;
 
     public currentFrs: Fournisseur;
 
     public selectedType;
     public selectedSociete;
-    public selectedUser;
     public selectedBanque;
 
     public chequeSaisi: any;
@@ -43,7 +42,8 @@ export class PaiementChequeComponent implements OnInit {
         private societeService:SocieteService,
         private userlbvService:UserlbvService,
         private banqueService: BanqueService,
-        private router:Router
+        private router:Router,
+        private appcommonService: AppCommonService
     ) {
 
         this.LoadData();
@@ -66,9 +66,7 @@ export class PaiementChequeComponent implements OnInit {
         this.selectedType=event.target.value;
 
     }
-    selectChangeHandlerU(event: any){
-        this.selectedUser=event.target.value;
-    }
+
 
     selectChangeHandlerB(event: any){
         this.selectedBanque=event.target.value;
@@ -117,6 +115,10 @@ export class PaiementChequeComponent implements OnInit {
 
     onHoldCheque(data){
 
+        const options = { year: "numeric", month: "numeric", day: "numeric" };
+        this.datee = this.appcommonService.date.toLocaleDateString('fr-FR', options);
+        data.dateCheque =  this.datee;
+        data.dateDepot =  this.datee;
         
        // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)
        this.fournisseurService.getFournisseurByLibelle(data.libelleFrs)
@@ -187,25 +189,19 @@ export class PaiementChequeComponent implements OnInit {
               this.societes=data;
           },err=>{
               console.log(err);
-          })   
+          });   
     this.typepaiementService.getTypePaiements()
     .subscribe(data=>{
               this.typesPaiement=data;
           },err=>{
               console.log(err);
-          })  
-    this.userlbvService.getUserlbvs()
-    .subscribe(data=>{
-              this.userlbvs=data;
-            },err=>{
-            console.log(err);
-        })  
+          }); 
     this.banqueService.getBanques()
     .subscribe(data=>{
                this.banques=data;
             },err=>{
                 console.log(err);
-            })
+            });
         }
     
     SplitNames(){

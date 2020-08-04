@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Societe, Fournisseur, TypeReglement, Banque} from '@modules/reeglement/models';
-import { TypereglementService, FournisseurService, SocieteService, BanqueService } from '@modules/reeglement/services';
+import { TypereglementService, FournisseurService, SocieteService, BanqueService, ReglementService } from '@modules/reeglement/services';
 
 
 
 import { Router } from '@angular/router';
 import { Reglement } from '@modules/tables/models';
+import { AppCommonService } from '@common/services';
 
 @Component({
   selector: 'sb-saisie',
@@ -33,15 +34,19 @@ export class SaisieComponent implements OnInit {
     selectedNom: any;
     cnuf: any;
     frs: any;
+    datee: any;
+    currentReglement: Reglement;
     //libelleFrs=this.setLibFrs();
 
 
-  constructor(
-    private typereglementService:TypereglementService,
+  constructor(        
+        private reglementService:ReglementService,
+        private typereglementService:TypereglementService,
         private fournisseurService:FournisseurService,
         private societeService:SocieteService,
         private banqueService: BanqueService,
-        private router:Router
+        private router:Router,
+        private appcommonService: AppCommonService
   ) {
     this.LoadData();
    }
@@ -51,7 +56,7 @@ export class SaisieComponent implements OnInit {
   
 
 
-  onSaveFacture(data){
+  onSaveReglement(data){
 
     if(this.reglementsOnHold!=null) {
         for(let index in this.reglementsOnHold){
@@ -67,24 +72,36 @@ export class SaisieComponent implements OnInit {
 }
 
 
+
+
 Valider(data){
-  /*
-  this.factureService.saveResource(this.factureService.host+"/listFactures",data)
+  
+  this.reglementService.saveResource(this.reglementService.host+"/listReglements",data)
   .subscribe(res=>{
       this.formatJsonData(data);
-      this.currentFacture=res;
+      this.currentReglement=res;
       this.mode=2;
   },err=>{
       console.log(err);
   });
   this.Redirect();
-  */
+  
 }
 
+Redirect(){
+    this.router.navigate(['/reeglement/saisie']);  
+    }
 
 
   onHold(r){
 
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    this.datee = this.appcommonService.date.toLocaleDateString('fr-FR', options);
+    r.value.dateReglement =  this.datee;
+    r.value.dateDepot =  this.datee;
+    console.log("dateservice"+this.datee);
+
+    
     // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)      
     this.reglementsOnHold.push(r.value);
     console.log( "here",this.reglementsOnHold);
@@ -104,10 +121,17 @@ Valider(data){
     },err=>{
         console.log(err);
     });
+
+    this.banqueService.getBanqueByLibelle(this.selectedBanque)
+    .subscribe(res=>{
+        r.value.banque=res;
+    },err=>{
+        console.log(err);
+    });
         //Typereglement
         this.typereglementService.getTypereglementByLibelle(this.selectedType)
         .subscribe(res=>{
-            r.value.typesreglement=res;
+            r.value.typereglement=res;
         },err=>{
             console.log(err);
         });
@@ -199,4 +223,41 @@ this.typereglementService.getTypeReglements()
 
 
     }
+
+    
+onDeleteReglement(id){
+    let conf=confirm("Etes-vous sûr(e)");
+    if(conf){
+        this.reglementsOnHold.splice(id,1);
+        console.log("hereeee"+this.reglementsOnHold);
+        }
+    }
+    formatJsonData(data){
+        //Formatage data en facture
+        data= {
+            numCheque: data.numCheque,
+            montant: data.montant,
+            joursEcheance: data.joursEcheance,
+            dateDepot: this.datee,
+            dateReglement: this.datee,
+            fournisseur:{
+                cnuf: data.fournisseur.cnuf,
+                libelleFrs: data.fournisseur.libelleFrs,
+                echeanceFrs: data.fournisseur.echeanceFrs
+            },
+            societe:{
+                idSociete: data.societe.idSociete,
+                libelleSociete: this.selectedSociete,
+            },
+            banque:{
+                idBanque: data.banque.idBanque,
+                libelleBanque: this.selectedBanque,
+            },
+            typereglement:{
+                idTypereglement: data.typereglement.idTypereglement,
+                libelleTypereglement: this.selectedType,
+            },       
+        };
+       
+       }    
 }

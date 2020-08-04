@@ -46,6 +46,8 @@ export class RechercheFactureComponent implements OnInit {
     public currentIdUlbv: any;
     public currentIdSociete: any;
   currentLibF: string;
+  currentNomUlbv: string;
+  currentPrenomUlbv: string;
 
 
     constructor(
@@ -131,8 +133,10 @@ console.log(this.fileDate.toLocaleDateString('fr-FR', options));
             if((data.userlbv!=null)&&(data.userlbv!=undefined)){
               this.currentUlbv = data.userlbv;
               console.log("currentUlbv", this.currentUlbv);
-              this.currentIdUlbv=this.currentUlbv.idUlbv;
-              console.log("currentIdUlbv", this.currentIdUlbv);
+              this.currentNomUlbv=this.currentUlbv.nomUlbv;
+              this.currentPrenomUlbv=this.currentUlbv.prenomUlbv;
+
+              console.log("currentPrenomUlbv", this.currentPrenomUlbv);
             }
 
           },err=>{
@@ -155,7 +159,7 @@ console.log(this.fileDate.toLocaleDateString('fr-FR', options));
             });
           }
           console.log("data lwla")
-          console.log(data)
+          console.log(data);
           this.currentPage=0;
               
 
@@ -170,7 +174,7 @@ console.log(this.fileDate.toLocaleDateString('fr-FR', options));
         chercherFactures(){
 
           this.factureService
-          .getFacturesByCriteria(this.currentIdUlbv,this.currentLibF)
+          .getFacturesByCriteria(this.currentNomUlbv,this.currentPrenomUlbv,this.currentLibF)
           .subscribe(data=>{
                     //this.totalPages=data["page"].totalPages;
                     //this.pages=new Array<number>(this.totalPages);
@@ -218,16 +222,18 @@ console.log(this.fileDate.toLocaleDateString('fr-FR', options));
               console.log(err);
           });
           
-          this.userlbvService.getUlbvByHref(factureList[index]._links.userlbv.href)
-              .subscribe(res=>{
-                  factureList[index].userlbv=res;
-              },err=>{
-                  console.log(err);
-              });
+
 
           this.fournisseurService.getFournisseurByHref(factureList[index]._links.fournisseur.href)
           .subscribe(res=>{
               factureList[index].fournisseur=res;
+
+              this.userlbvService.getUlbvByHref(factureList[index].fournisseur._links.userlbv.href)
+              .subscribe(res=>{
+                  factureList[index].fournisseur.userlbv=res;
+              },err=>{
+                  console.log(err);
+              });
           },err=>{
               console.log(err);
             });

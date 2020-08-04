@@ -86,12 +86,3 @@ export class DatepickerComponent implements OnInit,ControlValueAccessor, OnInit,
     }
 
   }
-
-
-
-
-
-
-
-
-

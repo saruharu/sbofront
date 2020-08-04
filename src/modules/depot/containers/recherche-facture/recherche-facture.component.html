@@ -95,7 +95,7 @@
                             contenteditable="true">{{f.joursEcheance}}</span>
                         </td> 
                         <td>data echeance</td>
-                        <td>{{f.userlbv.nomUlbv}} {{f.userlbv.prenomUlbv}}</td>
+                        <td>{{f.fournisseur.userlbv.nomUlbv}} {{f.fournisseur.userlbv.prenomUlbv}}</td>
                         <td><button  [disabled]="!isAdmin" class="btn btn-secondary" (click)=onUpdateFacture(f)>Modifier</button></td>
                         <td><button  [disabled]="!isAdmin" class="btn btn-danger" (click)=onDeleteFacture(f,id)>Supprimer</button></td>
 
