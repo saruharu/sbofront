@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '@modules/auth/services';
 
 @Component({
     selector: 'sb-login',
@@ -7,6 +9,22 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     styleUrls: ['login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-    constructor() {}
+    constructor(        
+        private router:Router,
+        private authService:AuthService
+
+        ) {}
     ngOnInit() {}
+
+    onLogin(data){
+        console.log(data.username);
+        console.log(data.password);
+
+        //this.Redirect();
+    }
+    Redirect(){
+
+        this.router.navigate(['/dashboard']);  
+
+    }
 }
