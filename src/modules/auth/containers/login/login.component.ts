@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@modules/auth/services';
 
 @Component({
-    selector: 'sb-login',
+    selector: 'sb-login', 
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './login.component.html',
     styleUrls: ['login.component.scss'],
