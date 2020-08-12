@@ -11,10 +11,6 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppCommonService } from '@common/services';
 
 
-
-
-
-
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
 @Component({
@@ -34,7 +30,6 @@ export class SaisieFactureComponent implements OnInit {
     public fournisseurs:any;
     public societes:any;
     public userlbvs:any;
-    public factureTest: Facture;
     public facturesOnHold: any[]=[];
 
     public selectedType;
@@ -43,7 +38,6 @@ export class SaisieFactureComponent implements OnInit {
 
     public currentFournisseur: Fournisseur;
     public currentFacture: Facture;
-    public mode: number=1;
     public currentSociete: Societe;
     splitUlbv: any;
     selectedPrenom: any;
@@ -65,17 +59,17 @@ export class SaisieFactureComponent implements OnInit {
         private router:Router,
         private appcommonService: AppCommonService)
         {
+
+
         this.datee = this.appcommonService.date;
-
-
-
         //Charger les data dans les listes roulantes
         this.LoadData();
 
     }
-
+    
+    
+    //Charger les donnees dans les liste roulantes        
     LoadData(){
-        //Charger les frs dans la liste roulante        
         this.typedocService.getTypesDoc()
         .subscribe(data=>{
                   this.typesDoc=data;
@@ -105,41 +99,34 @@ export class SaisieFactureComponent implements OnInit {
             }
           
     ngOnInit(): void {
-        //Date en francais configuration ( . . . in construction. . . )
-            console.log("blabla");
-            console.log("hui");
-            this.factureTest = new Facture();
-            console.log(new Date().toLocaleDateString("en-Fr"));
-            this.factureTest.dateDepot = new Date();
-            console.log("hui1");
-            console.log(this.factureTest.dateDepot.toLocaleDateString());
     }
 
-    //Afficher LibFrs et echeance apres cnuf saisi
+    //Evenement: apres la saisie du cnuf
     onSearchChange(value) {  
         console.log("cnuf");
         console.log(value);
         this.getFrs(value);
       }
 
+    //Recuperer le fournisseur et ses attributs selon le cnuf saisi
     getFrs(cnuf: number) {
 
        this.fournisseurService.getFournisseur(cnuf)
         .subscribe(res=>{
-            console.log("peasant");
-            console.log(res);
             this.frs = res;
             this.userlbvService.getUlbvByHref(this.frs["_links"].userlbv.href)
             .subscribe(res=>{
                 this.user = res;
                 this.nomComplet = this.user.nomUlbv+" "+ this.user.prenomUlbv;
-                console.log("util"+this.user.nomUlbv);
+                console.log("utilisateur"+this.user.nomUlbv);
             },err=>{
                 console.log(err);
             })
         },err=>{
             console.log(err);
         });
+
+        //IMPORTANT pour reinitialiser les champs si le cnuf est saisi un autre fois
         this.frs.libelleFrs = null;
         this.frs.echeanceFrs = null;
         this.nomComplet = null;
@@ -147,34 +134,7 @@ export class SaisieFactureComponent implements OnInit {
 
     }
 
-    isFrs(): boolean{
-        if(this.frs !(null)) { return true;}
-        else {return false;}
-    }
-
-
-    onSaveFacture(){
-        if(this.facturesOnHold!=null) {
-            for(let index in this.facturesOnHold){
-                console.log("serv"+this.datee);
-
-                console.log("dateform"+this.facturesOnHold[index].dateDepot);
-                this.Valider(this.facturesOnHold[index]);
-            }
-        }
-                    
-                   
-
-
-                
-    console.log("tamaman");
-    console.log(this.facturesOnHold);
-    
-    //data.reset();
-    //data.numFact.setErrors(null);
-    }
-  
-     
+    //Evenement clique du bouton Ajouter
     onHold(f){
 
         const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -184,243 +144,103 @@ export class SaisieFactureComponent implements OnInit {
         console.log("dateservice"+this.datee);
 
         console.log("datedepot"+f.value.dateDepot);
-        // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)      
+
+        //facture ajouter a la liste des factures a afficher dans le tableau
         this.facturesOnHold.push(f.value);
 
+        // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)      
         //Fournisseur
         this.fournisseurService.getFournisseur(f.value.cnuf)
         .subscribe(res=>{
             f.value.fournisseur= res;
-        //this.currentFacture=res;
-        //Societe
-        this.societeService.getSocieteByLibelle(this.selectedSociete)
-        .subscribe(res=>{
-            f.value.societe=res;
-            //TypeDoc
-            this.typedocService.getTypedocByLibelle(this.selectedType)
-            .subscribe(res=>{
-                f.value.typedoc=res;
-                //User
-                this.SplitNames();
-                this.userlbvService.getUserlbvByNoms(this.selectedNom,this.selectedPrenom)
+            
+            //Societe
+            this.societeService.getSocieteByLibelle(this.selectedSociete)
                 .subscribe(res=>{
-                    f.value.userlbv=res;
-                    
+                f.value.societe=res;
+
+                //TypeDoc
+                this.typedocService.getTypedocByLibelle(this.selectedType)
+                .subscribe(res=>{
+                    f.value.typedoc=res;
+
+                    //User
+                    this.SplitNames();
+                    this.userlbvService.getUserlbvByNoms(this.selectedNom,this.selectedPrenom)
+                    .subscribe(res=>{
+                        f.value.userlbv=res;
+
+                    },err=>{
+                        console.log(err);
+                    });
                 },err=>{
                     console.log(err);
                 });
             },err=>{
                 console.log(err);
             });
+
         },err=>{
             console.log(err);
         });
-
-    },err=>{
-        console.log(err);
-    });
-
-
-        console.log("data.value");
-        console.log(f.value);
-        console.log("onHold");
-        console.log(this.facturesOnHold);
-        console.log("dateee");
-        console.log(f.dateDepot);
-        /*
-
-            var resetButton = (data.value.numFact);
-            resetButton.value='';
-            console.log("reset", resetButton.value);
-    */
-   //f.controls['montant'].reset();
-
     }
 
-
+    //Evenement clique du bouton Valider
+    onSaveFacture(){
+        if(this.facturesOnHold!=null) {
+            for(let index in this.facturesOnHold){
+                this.Valider(this.facturesOnHold[index]);
+            }
+        }
+    }
+  
+    
     Valider(data){
         this.factureService.saveResource(this.factureService.host+"/listFactures",data)
         .subscribe(res=>{
-            //this.formatJsonData(data);
             this.facturesOnHold.push(res);
-            this.mode=2;
         },err=>{
             console.log(err);
         });
         this.Redirect();
     }
 
-    RetrieveDataJson(data){
+    //Evenements des listes roulantes
+    selectChangeHandlerS(event: any){
+        this.selectedSociete=event.target.value;
+    }
+    selectChangeHandlerT(event: any){
+        this.selectedType=event.target.value;
 
-                // Recuperer les objets depuis leurs attributs selectionnes (lib, id...)      
-
-        //Fournisseur
-        this.fournisseurService.getFournisseur(data.cnuf)
-        .subscribe(res=>{
-            data.fournisseur= res;
-        //this.currentFacture=res;
-        },err=>{
-        console.log(err);
-        });
-
-        //Societe
-        this.societeService.getSocieteByLibelle(this.selectedSociete)
-        .subscribe(res=>{
-            data.societe=res;
-        },err=>{
-            console.log(err);
-        });
-
-        //TypeDoc
-        this.typedocService.getTypedocByLibelle(this.selectedType)
-        .subscribe(res=>{
-            data.typedoc=res;
-        },err=>{
-            console.log(err);
-        });
-
-
-        //User
-        this.SplitNames();
-        this.userlbvService.getUserlbvByNoms(this.selectedNom,this.selectedPrenom)
-        .subscribe(res=>{
-            data.userlbv=res;
-        },err=>{
-            console.log(err);
-        });
-
- 
-}
-
-formatJsonData(data){
- //Formatage data en facture
- data= {
-     numFact: data.numFact,
-     montant: data.montant,
-     joursEcheance: data.joursEcheance,
-     dateDepot: this.datee,
-     fournisseur:{
-         cnuf: data.fournisseur.cnuf,
-         libelleFrs: data.fournisseur.libelleFrs,
-         echeanceFrs: data.fournisseur.echeanceFrs
-     },
-     
-     societe:{
-         idSociete: data.societe.idSociete,
-         libelleSociete: this.selectedSociete,
-     },
-     typedoc:{
-         idTypedoc: data.typedoc.idTypedoc,
-         libelleTypedoc: this.selectedType,
-     },
-     userlbv:{
-         idUlbv: data.userlbv.idUlbv,
-         nomUlbv: data.userlbv.nomUlbv,
-         prenomUlbv: data.userlbv.prenomUlbv,
-     }
-     
- };
-
-}
-
-selectChangeHandlerS(event: any){
-    this.selectedSociete=event.target.value;
-}
-selectChangeHandlerT(event: any){
-    this.selectedType=event.target.value;
-
-}
-selectChangeHandlerU(event: any){
-    this.selectedUser=event.target.value;
-}
-
-SplitNames(){
-    this.splitUlbv=this.nomComplet.split(" ");
-    this.selectedNom = this.splitUlbv[0];
-    this.selectedPrenom = this.splitUlbv[1];
-}
-
-Redirect(){
-    this.router.navigate(['/depot/addFacture']);  
+    }
+    selectChangeHandlerU(event: any){
+        this.selectedUser=event.target.value;
     }
 
-onNewFacture(){
-    this.mode=1;
-}
-
-onDeleteFacture(id){
-    let conf=confirm("Etes-vous sûr(e)");
-    if(conf){
-        this.facturesOnHold.splice(id,1);
-        console.log("hereeee"+this.facturesOnHold);
-        }
-    }
-updateList(id: number, property: string, event: any) {
-        const editField = event.target.textContent;
-        this.facturesOnHold[id][property] = editField;
-      }
-
-
-updateListTypedoc(id: number, property: string,attribute:string, event: any) {
-        const editField = event.target.textContent;
-        this.typedocService.getTypedocByLibelle(editField)
-        .subscribe(res=>{
-            this.facturesOnHold[id][property] =res;
-        },err=>{
-            console.log(err);
-        });
-        this.facturesOnHold[id][property][attribute] = editField;
-      }      
-updateListSociete(id: number, property: string,attribute:string, event: any) {
-        const editField = event.target.textContent;
-        this.societeService.getSocieteByLibelle(editField)
-        .subscribe(res=>{
-            this.facturesOnHold[id][property] =res;
-        },err=>{
-            console.log(err);
-        });
-        this.facturesOnHold[id][property][attribute] = editField;
-      }
-
-updateListFrs(id: number, property: string,attribute:string, event: any) {
-        const editField = event.target.textContent;
-        this.fournisseurService.getFournisseurByLibelle(editField)
-        .subscribe(res=>{
-            this.facturesOnHold[id][property] =res;
-        },err=>{
-            console.log(err);
-        });
-        this.facturesOnHold[id][property][attribute] = editField;
-
-      }
-
-updateListFrsCNUF(id: number, property: string,attribute:string, event: any) {
-        const editField = event.target.textContent;
-        this.fournisseurService.getFournisseur(editField)
-        .subscribe(res=>{
-            this.facturesOnHold[id][property] =res;
-        },err=>{
-            console.log(err);
-        });
-        this.facturesOnHold[id][property][attribute] = editField;
-      }
-
-updateListUser(id: number, property: string,attribute1:string,attribute2:string, event: any) {
-        const editField = event.target.textContent;
-        this.splitUlbv=editField.split(" ");
+    //Separation du nom et prenom de l'utiisateur
+    SplitNames(){
+        this.splitUlbv=this.nomComplet.split(" ");
         this.selectedNom = this.splitUlbv[0];
         this.selectedPrenom = this.splitUlbv[1];
+    }
 
-        this.userlbvService.getUserlbvByNoms(this.selectedNom,this.selectedPrenom)
-        .subscribe(res=>{
-            this.facturesOnHold[id][property] =res;
-        },err=>{
-            console.log(err);
-        });
-        this.facturesOnHold[id][property][attribute1] = this.selectedNom;
-        this.facturesOnHold[id][property][attribute2] = this.selectedPrenom;
+    //redirection vers une autre page
+    Redirect(){
+        this.router.navigate(['/depot/addFacture']);  
+    }
+    
+    //Supprimer et modifier dans le tableau
+    onDeleteFacture(id){
+        let conf=confirm("Etes-vous sûr(e)?");
+        if(conf){
+            this.facturesOnHold.splice(id,1);
+        }
+    }
+    
+    updateList(id: number, property: string, event: any) {
+        const editField = event.target.textContent;
+        this.facturesOnHold[id][property] = editField;
+    }
 
-
-      }
 }
 
